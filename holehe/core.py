@@ -157,8 +157,13 @@ def export_csv(data,args,email):
         now = datetime.now()
         timestamp = datetime.timestamp(now)
         name_file="holehe_"+str(round(timestamp))+"_"+email+"_results.csv"
+        fieldnames = []
+        for d in data:
+             for key in d.keys():
+                 if key not in fieldnames:
+                     fieldnames.append(key)
         with open(name_file, 'w', encoding='utf8', newline='') as output_file:
-            fc = csv.DictWriter(output_file,fieldnames=data[0].keys())
+            fc = csv.DictWriter(output_file,fieldnames=fieldnames)
             fc.writeheader()
             fc.writerows(data)
         exit("All results have been exported to "+name_file)
